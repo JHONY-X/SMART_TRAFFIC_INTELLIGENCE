@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Traffic Management System</title>
+    <link rel="stylesheet" href="style.css?v=1.0.3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i data-lucide="traffic-cone" class="logo-icon"></i>
+                    <div class="logo-text">
+                        <h2>Smart Traffic</h2>
+                        <span>Management System</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="nav-dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="#" class="nav-item" id="nav-live-traffic"><i data-lucide="activity"></i> Live Traffic</a>
+                <a href="#" class="nav-item" id="nav-traffic-lights"><i data-lucide="traffic-light"></i> Traffic Lights</a>
+                <a href="#" class="nav-item" id="nav-incidents"><i data-lucide="alert-triangle"></i> Incidents</a>
+                <a href="#" class="nav-item" id="nav-analytics"><i data-lucide="bar-chart-3"></i> Analytics</a>
+                <a href="#" class="nav-item" id="nav-reports"><i data-lucide="file-text"></i> Reports</a>
+                <a href="#" class="nav-item" id="nav-settings"><i data-lucide="settings"></i> Settings</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <div class="status-header">
+                        <span>System Status</span>
+                        <span class="status-badge online">Operational</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Connected Devices</span>
+                        <span>128/150</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span>System Uptime</span>
+                        <span class="highlight">99.8%</span>
+                    </div>
+                </div>
+                <div class="dark-mode-toggle">
+                    <div class="toggle-info">
+                        <i data-lucide="moon"></i>
+                        <span>Dark Mode</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle"><i data-lucide="menu"></i></button>
+                    <div class="location-picker">
+                        <h3>Live Traffic Overview</h3>
+                        <div class="location">
+                            <i data-lucide="map-pin"></i>
+                            <span>City Center, New York</span>
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn"><i data-lucide="sun"></i></button>
+                    <button class="icon-btn notification">
+                        <i data-lucide="bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="User">
+                        </div>
+                        <div class="user-info">
+                            <h4>Admin</h4>
+                            <span>Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Center Map Area -->
+                <div id="section-map" class="map-area card">
+                    <div class="map-header">
+
+                    </div>
+                    <div id="simulation-map" class="map-visual">
+                        <!-- Simulation Map drawn by app.js -->
+                    </div>
+                    <div class="map-legend">
+                        <span class="legend-item"><span class="dot smooth"></span> Smooth</span>
+                        <span class="legend-item"><span class="dot moderate"></span> Moderate</span>
+                        <span class="legend-item"><span class="dot heavy"></span> Heavy</span>
+                        <span class="legend-item"><span class="dot closed"></span> Closed</span>
+                    </div>
+                    <div class="map-controls">
+                        <button><i data-lucide="plus"></i></button>
+                        <button><i data-lucide="minus"></i></button>
+                        <button><i data-lucide="crosshair"></i></button>
+                    </div>
+                </div>
+
+                <!-- Right Stats Panel -->
+                <div class="stats-panel">
+                    <!-- Simulation Config -->
+                    <div id="section-settings" class="card config-card">
+                        <div class="card-header">
+                            <h3>Simulation Config</h3>
+                            <div id="active-rule-badge" class="status-badge rule">SIGNALIZED</div>
+                        </div>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label><i data-lucide="scale"></i> Traffic Rules</label>
+                                <select id="rule-select" class="premium-select">
+                                    <option value="SIGNALIZED">AI Rules (Inference Engine)</option>
+                                    <option value="RL_TRAINED">AI RL Agent (Q-Learning)</option>
+                                    <option value="RIGHT_PRIORITY">Right-of-Way: Right Priority</option>
+                                    <option value="PRIORITY_ROAD">Right-of-Way: Priority Road</option>
+                                </select>
+                            </div>
+                            <div class="config-item">
+                                <label><i data-lucide="hand"></i> Manual Override</label>
+                                <div class="toggle-row">
+                                    <label class="switch">
+                                        <input type="checkbox" id="manual-override-toggle">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span id="manual-status">Auto</span>
+                                </div>
+                            </div>
+                            <div class="config-item full-width">
+                                <div class="label-row">
+                                    <label><i data-lucide="zap"></i> Traffic Intensity</label>
+                                    <span id="intensity-val">50%</span>
+                                </div>
+                                <input type="range" id="intensity-slider" min="0" max="100" value="50"
+                                    class="premium-slider">
+                                <div class="slider-labels"><span>Low</span><span>High</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Overview -->
+                    <div id="section-overview" class="card stat-card">
+                        <div class="card-header">
+                            <h3>Traffic Overview</h3>
+                            <select>
+                                <option>Today</option>
+                            </select>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <i data-lucide="car" class="blue"></i>
+                                <div class="stat-val">
+                                    <span class="label">Total Vehicles</span>
+                                    <span class="number" id="total-vehicles-count">24,578</span>
+                                    <span class="trend up"><i data-lucide="arrow-up-right"></i> 12.5%</span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <i data-lucide="gauge" class="green"></i>
+                                <div class="stat-val">
+                                    <span class="label">Average Speed</span>
+                                    <span class="number" id="avg-speed-val">32 km/h</span>
+                                    <span class="trend down"><i data-lucide="arrow-down-right"></i> 8.3%</span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <i data-lucide="plus-square" class="purple"></i>
+                                <div class="stat-val">
+                                    <span class="label">Total Intersections</span>
+                                    <span class="number" id="total-intersections-count">42</span>
+                                    <span class="subtext">All operational</span>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <i data-lucide="alert-circle" class="red"></i>
+                                <div class="stat-val">
+                                    <span class="label">Active Incidents</span>
+                                    <span class="number" id="active-incidents-count">3</span>
+                                    <span class="subtext">View all incidents</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Flow Distribution -->
+                    <div id="section-analytics" class="card chart-card">
+                        <div class="card-header">
+                            <h3>Traffic Flow Distribution</h3>
+                            <select>
+                                <option>Today</option>
+                            </select>
+                        </div>
+                        <div class="chart-content">
+                            <div class="donut-chart" id="flow-donut">
+                                <div class="donut-center">
+                                    <h4>75%</h4>
+                                    <span>Efficiency</span>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-row"><span class="dot green"></span> Smooth <span>45%</span></div>
+                                <div class="legend-row"><span class="dot yellow"></span> Moderate <span>30%</span></div>
+                                <div class="legend-row"><span class="dot red"></span> Heavy <span>20%</span></div>
+                                <div class="legend-row"><span class="dot gray"></span> Closed <span>5%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Panels -->
+                <div class="bottom-panels">
+                    <!-- Traffic Lights Status -->
+                    <div id="section-signals" class="card signals-card">
+                        <div class="card-header">
+                            <h3>Traffic Lights Status</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="signals-grid" id="signals-container">
+                            <!-- Signal cards will be rendered here -->
+                        </div>
+                        <button class="sync-btn" id="sync-all-btn"><i data-lucide="refresh-cw"></i> Synchronize All Signals</button>
+                    </div>
+
+                    <!-- Recent Incidents -->
+                    <div id="section-incidents" class="card incidents-card">
+                        <div class="card-header">
+                            <h3>Recent Incidents</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="incidents-list">
+                            <div class="incident-item">
+                                <i data-lucide="car" class="red"></i>
+                                <div class="incident-info">
+                                    <h4>Traffic Accident</h4>
+                                    <span>5th Ave & 3rd St</span>
+                                </div>
+                                <div class="incident-meta">
+                                    <span>2 min ago</span>
+                                    <span class="priority high">High</span>
+                                </div>
+                            </div>
+                            <div class="incident-item">
+                                <i data-lucide="construction" class="orange"></i>
+                                <div class="incident-info">
+                                    <h4>Road Construction</h4>
+                                    <span>Park Ave between 2nd & 3rd St</span>
+                                </div>
+                                <div class="incident-meta">
+                                    <span>15 min ago</span>
+                                    <span class="priority medium">Medium</span>
+                                </div>
+                            </div>
+                            <div class="incident-item">
+                                <i data-lucide="alert-octagon" class="yellow"></i>
+                                <div class="incident-info">
+                                    <h4>Vehicle Breakdown</h4>
+                                    <span>Main St & 1st Ave</span>
+                                </div>
+                                <div class="incident-meta">
+                                    <span>32 min ago</span>
+                                    <span class="priority low">Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Camera Feed -->
+                    <div id="section-camera" class="card camera-card">
+                        <div class="card-header">
+                            <h3>Live Camera Feed</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="camera-feed">
+                            <img id="camera-placeholder"
+                                src="road.png"
+                                alt="Traffic Feed">
+                            <div class="camera-overlay">
+                                <span>Camera 5 - 5th Ave & Park Ave</span>
+                                <span class="live-badge"><span class="dot red"></span> Live</span>
+                            </div>
+                            <div class="camera-controls">
+                                <button><i data-lucide="chevron-left"></i></button>
+                                <div class="dots"><span class="active"></span><span></span><span></span><span></span></div>
+                                <button><i data-lucide="chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Sim Controls -->
+            <div class="sim-controls">
+                <button id="tick-btn" title="Step Tick"><i data-lucide="play"></i></button>
+                <button id="play-btn" title="Auto Play"><i data-lucide="fast-forward"></i></button>
+                <button id="reset-btn" title="Reset"><i data-lucide="rotate-ccw"></i></button>
+            </div>
+        </main>
+    </div>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="app.js"></script>
+</body>
+
+</html>
