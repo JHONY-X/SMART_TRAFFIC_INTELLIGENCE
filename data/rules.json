@@ -1,0 +1,30 @@
+[
+  {
+    "id": "SAFETY_01",
+    "description": "EMERGENCY: Immediate override for emergency vehicles to ensure life safety.",
+    "condition": "emergency_vehicle",
+    "action": "emergency_override",
+    "priority": 100
+  },
+  {
+    "id": "FAIRNESS_01",
+    "description": "ANTI-STARVATION: Force signal switch if any vehicle waits longer than 60s.",
+    "condition": "max_wait_time_exceeded",
+    "action": "force_switch",
+    "priority": 50
+  },
+  {
+    "id": "EFFICIENCY_01",
+    "description": "DYNAMIC: Prioritize lanes with highest vehicle density to maximize throughput.",
+    "condition": "highest_density",
+    "action": "prioritize_highest_density",
+    "priority": 30
+  },
+  {
+    "id": "OPTIMIZATION_01",
+    "description": "ECO-MODE: Reduce cycle times when no traffic is detected to save power and reduce wait.",
+    "condition": "no_traffic",
+    "action": "reduce_cycle_time",
+    "priority": 10
+  }
+]
